@@ -1,6 +1,8 @@
 import { timer, from, of } from 'rxjs';
 import { mergeMap, catchError } from 'rxjs/operators';
 
+// https://www.learnrxjs.io/learn-rxjs/operators/error_handling/catch
+
 //create promise that immediately rejects
 const badPromise = () => new Promise((resolve, reject) => reject('Rejected!'));
 
@@ -18,9 +20,11 @@ const exmpl_1 = src_1$.pipe(
 
 const exmpl_2 = src_2$.pipe(
   mergeMap((_) =>
-    from(goodPromise()).pipe(catchError((error) => of(`Bad Promise: ${error}`)))
+    from(goodPromise()).pipe(
+      catchError((error) => of(`Good Promise: ${error}`))
+    )
   )
 );
 //output: 'Bad Promise: Rejected'
-const subscribe = exmpl_1.subscribe((val) => console.log(val)); // Bad Promise: Rejected!
+const sub1 = exmpl_1.subscribe((val) => console.log(val)); // Bad Promise: Rejected!
 const sub2 = exmpl_2.subscribe((val) => console.log(val)); // Resolve
